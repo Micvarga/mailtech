@@ -29,42 +29,42 @@ const Header = () => {
                     <Navbar className={styles.navbar}>
                         <Nav>
                             <NavItem>
-                                <NavLink>
+                                <NavLink className="nav-link" to="production">
                                     <Button color="primary">
                                         Report Production
                                     </Button>
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink>
+                                <NavLink className="nav-link" to="efficiency">
                                     <Button color="primary">
-                                        My Production Report
+                                        My Efficiency Reports
                                     </Button>
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink>
+                                <NavLink className="nav-link" to="metrics">
                                     <Button color="primary">
-                                        Production Reports
+                                        Team Metric Reports
                                     </Button>
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink>
+                                <NavLink className="nav-link" to="hours">
                                     <Button color="primary">
-                                        Update Hours Worked
+                                        Worked Hours Reports
                                     </Button>
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink>
+                                <NavLink className="nav-link" to="volume">
                                     <Button color="primary">
                                         Volume Reports
                                     </Button>
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink>
+                                <NavLink className="nav-link" to="/">
                                     <Button color="primary">Log Out</Button>
                                 </NavLink>
                             </NavItem>

@@ -4,7 +4,7 @@ import { Formik, Field, Form } from "formik";
 const LoginForm = () => {
     const handleSubmit = (values, { resetForm }) => {
         console.log("form values:", values);
-        console.log("in JSON format;", JSON.stringify(values));
+        console.log("in JSON format:", JSON.stringify(values));
         resetForm();
     };
 

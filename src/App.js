@@ -2,11 +2,11 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./Components/Header/Header";
 import LoginPage from "./Pages/LoginPage/LoginPage";
-import MyEfficiencyReportsPage from "./Pages/MyEfficiencyReports";
-import TeamMetricsReportsPage from "./Pages/TeamMetricsReportsPage";
-import ReportProductionPage from "./Pages/ReportProductionPage";
-import VolumeReportsPage from "./Pages/VolumeReportsPage";
-import WorkedHoursReportsPage from "./Pages/WorkedHoursReportsPage";
+import MyEfficiencyReportsPage from "./Pages/MyEfficiencyReportsPage/MyEfficiencyReports";
+import TeamMetricsReportsPage from "./Pages/TeamMetricsReportsPage/TeamMetricsReportsPage";
+import ReportProductionPage from "./Pages/ReportProductionPage/ReportProductionPage";
+import VolumeReportsPage from "./Pages/VolumeReportsPage/VolumeReportsPage";
+import WorkedHoursReportsPage from "./Pages/WorkedHoursReportsPage/WorkedHoursReportsPage";
 import "./App.css";
 
 function App() {

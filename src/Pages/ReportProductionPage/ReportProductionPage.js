@@ -1,5 +1,5 @@
 import { Col, Container, Row } from "reactstrap";
-import ReportProductionForm from "../../Components/Forms/ReportProductionForm";
+import ReportProductionForm from "../../Components/Forms/ReportProductionForm/ReportProductionForm";
 import styles from "../ReportProductionPage/ReportProductionPage.module.css";
 
 const ReportProductionPage = () => {

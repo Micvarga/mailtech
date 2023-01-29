@@ -1,0 +1,16 @@
+.Label {
+    margin-right: 15px;
+}
+
+.remove_task_button {
+    margin-left: 10px;
+    padding: 2px 12px;
+}
+
+.production_list {
+    margin-top: 30px;
+}
+
+.submit_button {
+    margin-top: 20px;
+}

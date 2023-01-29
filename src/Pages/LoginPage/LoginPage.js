@@ -1,4 +1,4 @@
-import LoginForm from "../../Components/Forms/LoginForm";
+import LoginForm from "../../Components/Forms/LoginForm/LoginForm";
 import { Container, Row, Col } from "reactstrap";
 import styles from "../LoginPage/LoginPage.module.css";
 

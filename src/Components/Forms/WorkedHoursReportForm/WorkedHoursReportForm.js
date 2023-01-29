@@ -1,5 +1,6 @@
 import { Button, Label, Col, FormGroup } from "reactstrap";
 import { Formik, Field, Form, FieldArray } from "formik";
+import DatePickerField from "../../DatePickerField/DatePickerField";
 import styles from "../WorkedHoursReportForm/WorkedHoursReportForm.module.css";
 
 const WorkedHoursReportForm = () => {
@@ -11,7 +12,6 @@ const WorkedHoursReportForm = () => {
 
     const initialValues = {
         employeeId: "",
-        productionCycle: "",
         workedHours: [
             {
                 date: "",
@@ -33,14 +33,6 @@ const WorkedHoursReportForm = () => {
                                 placeholder=""
                                 className="form-control"
                             />
-                            <Label htmlFor="productionCycle">
-                                Production Cycle
-                            </Label>
-                            <Field
-                                name="productionCycle"
-                                placeholder="Select A Cycle"
-                                className="form-control"
-                            />
                         </Col>
                         <Col md="4"></Col>
                     </FormGroup>
@@ -57,20 +49,20 @@ const WorkedHoursReportForm = () => {
                                                     styles.worked_hours_list
                                                 }
                                             >
-                                                <Col md="5">
+                                                <Col md="1">
                                                     <Label
                                                         htmlFor={`workedHours.${index}.date`}
-                                                        className={styles.Label}
                                                     >
                                                         Date
                                                     </Label>
-                                                    <Field
+                                                </Col>
+                                                <Col md="3">
+                                                    <DatePickerField
                                                         name={`workedHours.${index}.date`}
-                                                        placeholder=""
-                                                        type="text"
+                                                        label="Date"
                                                     />
                                                 </Col>
-                                                <Col md="7">
+                                                <Col md="8">
                                                     <Label
                                                         htmlFor={`workedHours.${index}.hoursWorked`}
                                                         className={styles.Label}

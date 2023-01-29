@@ -8,7 +8,6 @@ const WorkedHoursReportsPage = () => {
             <Row>
                 <Col md="12">
                     <h1 className={styles.worked_hours_report_page_header}>
-                        {" "}
                         Worked Hours Reports
                     </h1>
                 </Col>

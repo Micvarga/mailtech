@@ -1,6 +1,7 @@
 import { Button, Label, Col, FormGroup } from "reactstrap";
 import { Formik, Field, Form, FieldArray } from "formik";
 import styles from "../ReportProductionForm/ReportProductionForm.module.css";
+import DatePickerField from "../../DatePickerField/DatePickerField";
 
 const ReportProductionForm = () => {
     const handleSubmit = (values, { resetForm }) => {
@@ -26,7 +27,7 @@ const ReportProductionForm = () => {
                 <Form>
                     <FormGroup row>
                         <Col md="4"></Col>
-                        <Col md="4" className={{ order: 2 }}>
+                        <Col md="4">
                             <Label htmlFor="employeeId">Employee Id</Label>
                             <Field
                                 name="employeeId"
@@ -34,11 +35,7 @@ const ReportProductionForm = () => {
                                 className="form-control"
                             />
                             <Label htmlFor="date">Date</Label>
-                            <Field
-                                name="date"
-                                placeholder="Date"
-                                className="form-control"
-                            />
+                            <DatePickerField name="date" />
                         </Col>
                         <Col md="4"></Col>
                     </FormGroup>

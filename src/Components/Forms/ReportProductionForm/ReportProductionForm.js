@@ -26,7 +26,7 @@ const ReportProductionForm = () => {
                 <Form>
                     <FormGroup row>
                         <Col md="4"></Col>
-                        <Col md="4" className={{ order: 2 }}>
+                        <Col md="4">
                             <Label htmlFor="employeeId">Employee Id</Label>
                             <Field
                                 name="employeeId"

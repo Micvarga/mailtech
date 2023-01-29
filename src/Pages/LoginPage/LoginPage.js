@@ -11,8 +11,10 @@ const LoginPage = () => {
                         Welcome! Please Login to Continue.
                     </h1>
                 </Col>
+            </Row>
+            <Row>
                 <Col></Col>
-                <Col md="4" className={{ order: 2 }}>
+                <Col md="6">
                     <LoginForm />
                 </Col>
                 <Col></Col>

@@ -64,6 +64,13 @@ const Header = () => {
                                 </NavLink>
                             </NavItem>
                             <NavItem>
+                                <NavLink className="nav-link" to="users">
+                                    <Button color="primary">
+                                        Register/Remove Users
+                                    </Button>
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
                                 <NavLink className="nav-link" to="/">
                                     <Button color="primary">Log Out</Button>
                                 </NavLink>

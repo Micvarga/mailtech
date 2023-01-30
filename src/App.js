@@ -7,6 +7,7 @@ import TeamMetricsReportsPage from "./Pages/TeamMetricsReportsPage/TeamMetricsRe
 import ReportProductionPage from "./Pages/ReportProductionPage/ReportProductionPage";
 import VolumeReportsPage from "./Pages/VolumeReportsPage/VolumeReportsPage";
 import WorkedHoursReportsPage from "./Pages/WorkedHoursReportsPage/WorkedHoursReportsPage";
+import Register_RemoveUsersPage from "./Pages/Register_RemoveUsersPage/Register_RemoveUsersPage";
 import "./App.css";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
                 <Route path="metrics" element={<TeamMetricsReportsPage />} />
                 <Route path="volume" element={<VolumeReportsPage />} />
                 <Route path="hours" element={<WorkedHoursReportsPage />} />
+                <Route path="users" element={<Register_RemoveUsersPage />} />
             </Routes>
         </div>
     );

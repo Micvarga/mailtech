@@ -23,6 +23,7 @@ const LoginForm = () => {
                         <Field
                             name="userName"
                             placeholder="Username"
+                            type="text"
                             className="form-control"
                         />
                     </Col>
@@ -33,6 +34,7 @@ const LoginForm = () => {
                         <Field
                             name="password"
                             placeholder="Password"
+                            type="password"
                             className="form-control"
                         />
                     </Col>

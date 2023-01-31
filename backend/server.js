@@ -3,9 +3,26 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const secret = require("./secret");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+
+const mongoose = require("mongoose");
+
+// Mongodb connnection and verification.
+const url = secret.mongoUrl;
+const connect = mongoose.connect(url, {
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
+
+connect.then(
+    () => console.log("Connected correctly to server"),
+    (err) => console.log(err)
+);
 
 const app = express();
 

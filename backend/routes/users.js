@@ -1,5 +1,5 @@
 const express = require("express");
-const User = require("../models/users");
+const User = require("../models/user");
 const passport = require("passport");
 const router = express.Router();
 
@@ -9,17 +9,17 @@ router.get("/", function (req, res, next) {
 });
 
 router.post("/signup", (req, res) => {
-    console.log(req.body.employeeId);
+    console.log(req.body.username);
     User.register(
-        new User({ employeeId: req.body.employeeId }),
+        new User({ username: req.body.username }),
         req.body.password,
         (err) => {
             if (err) {
                 res.statusCode = 500;
-                res.setHeader("Content-type", "application/json");
+                res.setHeader("Content-Type", "application/json");
                 res.json({ err: err });
             } else {
-                passport.authenticate("local")(reg, res, () => {
+                passport.authenticate("local")(req, res, () => {
                     res.statusCode = 200;
                     res.setHeader("Content-Type", "application/json");
                     res.json({

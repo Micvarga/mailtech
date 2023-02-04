@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("path");
 const logger = require("morgan");
 const passport = require("passport");
+const session = require("express-session");
 const secret = require("./secret");
 
 const indexRouter = require("./routes/index");
@@ -34,7 +35,17 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use(
+    session({
+        name: "session-id",
+        secret: secret.secretKey,
+        saveUninitialized: false,
+        resave: false,
+    })
+);
+
 app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

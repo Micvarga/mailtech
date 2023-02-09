@@ -1,3 +1,4 @@
+const { response } = require("express");
 const express = require("express");
 const hoursWorked = require("../models/hoursWorked");
 
@@ -6,11 +7,14 @@ const hoursWorkedRouter = express.Router();
 hoursWorkedRouter
     .route("/")
     .get((req, res, next) => {
-        let { startDate, endDate, username } = req.query;
-        console.log({ startDate, endDate });
-
+        // variables for differnt form fields sent from client
+        let username = req.body.username;
+        let startDate = req.body.startDate;
+        let endDate = req.body.endDate;
+        console.log(username, startDate, endDate);
         hoursWorked
             .find({
+                // query to find hours worked based on client input via form
                 username: { $eq: username },
                 date: {
                     $gte: new Date(new Date(startDate)),
@@ -41,7 +45,7 @@ hoursWorkedRouter
     })
     .delete((req, res, next) => {
         hoursWorked
-            .findByIdAndDelete(req.params.hoursWorkedId)
+            .findByIdAndDelete(req.body._id)
             .then((hoursWorked) => {
                 res.statusCode = 200;
                 res.setHeader("Content-Type", "application/json");

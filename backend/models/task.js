@@ -7,10 +7,7 @@ const Currency = mongoose.Types.Currency;
 const taskSchema = new Schema({
     name: String,
     rate: Number,
-    price: {
-        type: Currency,
-        min: 0,
-    },
+    price: Currency,
 });
 
 const Task = mongoose.model("Task", taskSchema);

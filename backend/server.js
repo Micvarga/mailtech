@@ -9,6 +9,7 @@ const secret = require("./secret");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const hoursWorkedRouter = require("./routes/hoursWorkedRouter");
+const taskRouter = require("./routes/taskRouter");
 
 const mongoose = require("mongoose");
 
@@ -51,6 +52,7 @@ app.use(passport.session());
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/hoursWorked", hoursWorkedRouter);
+app.use("/tasks", taskRouter);
 
 app.use(express.static(path.join(__dirname, "public")));
 

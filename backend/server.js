@@ -10,6 +10,7 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const hoursWorkedRouter = require("./routes/hoursWorkedRouter");
 const taskRouter = require("./routes/taskRouter");
+const productionRouter = require("./routes/productionRouter");
 
 const mongoose = require("mongoose");
 
@@ -53,6 +54,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/hoursWorked", hoursWorkedRouter);
 app.use("/tasks", taskRouter);
+app.use("/production", productionRouter);
 
 app.use(express.static(path.join(__dirname, "public")));
 

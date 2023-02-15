@@ -37,6 +37,7 @@ const getProductionSummary = (req, res, next) => {
                 },
             },
             {
+                // filters documents by specified date range.
                 $match: {
                     date: {
                         $gte: new Date(new Date(startDate)),
@@ -45,11 +46,13 @@ const getProductionSummary = (req, res, next) => {
                 },
             },
             {
+                // takes production vales out of array and makes individaul documents.
                 $unwind: {
                     path: "$production",
                 },
             },
             {
+                // groups by Task property and gives total sum of volume and credits.
                 $group: {
                     _id: "$production.task",
                     totalVolume: {
@@ -57,6 +60,63 @@ const getProductionSummary = (req, res, next) => {
                     },
                     totalCredits: {
                         $sum: "$production.credit",
+                    },
+                },
+            },
+        ])
+        .then((production) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(production);
+        })
+        .catch((err) => next(err));
+};
+
+const getTeamProductionSummary = (req, res) => {
+    const startDate = new Date(req.body.startDate);
+    const endDate = new Date(req.body.endDate);
+    // array holding iterated dates from for loop.
+    const dateRange = [];
+    // For Loop will iterate each day between startDate and end Date and store in dateRange array.
+    for (
+        startDate;
+        startDate <= endDate;
+        startDate.setDate(startDate.getDate() + 1)
+    ) {
+        dateRange.push(new Date(startDate));
+    }
+    console.log(dateRange);
+    productionEntry
+        .aggregate([
+            {
+                $unwind: {
+                    path: "$production",
+                },
+            },
+            {
+                // $bucket will group production docs  by date.
+                $bucket: {
+                    groupBy: "$date",
+                    // dateRange variable with array of dates used to set boundries for each bucket.
+                    boundaries: dateRange,
+                    default: "Other",
+                    output: {
+                        count: {
+                            $sum: 1,
+                        },
+                        // production is an array containing all the production info for each date.
+                        production: {
+                            $push: {
+                                username: "$username",
+                                task: "$production.task",
+                                volume: "$production.volume",
+                                credit: "$production.credit",
+                            },
+                        },
+                        // sums total credits for each task in the day. Will be used to help determine team efficiency.
+                        totalCredits: {
+                            $sum: "$production.credit",
+                        },
                     },
                 },
             },
@@ -101,6 +161,7 @@ const deleteProductionEntry = (req, res) => {
 module.exports = {
     getProduction,
     getProductionSummary,
+    getTeamProductionSummary,
     createProductionEntry,
     deleteProductionEntry,
 };

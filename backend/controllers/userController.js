@@ -1,21 +1,23 @@
-const express = require("express");
-const User = require("../models/user");
+const user = require("../models/user");
 const passport = require("passport");
 const authenticate = require("../authenticate");
 
-const router = express.Router();
+const getUsers = (req, res, next) => {
+    user.find()
+        .then((users) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(users);
+        })
+        .catch((err) => next(err));
+};
 
-/* GET users listing. */
-router.get("/", function (req, res, next) {
-    res.send("respond with a resource");
-});
-
-router.post("/signup", (req, res) => {
+const signUpUser = (req, res, next) => {
     console.log(req.body.username);
     console.log(req.body.firstName);
     console.log(req.body.lastName);
-    User.register(
-        new User({
+    user.register(
+        new user({
             username: req.body.username,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -38,20 +40,22 @@ router.post("/signup", (req, res) => {
             }
         }
     );
-});
+};
 
-router.post("/login", passport.authenticate("local"), (req, res) => {
-    const token = authenticate.getToken({ _id: req.user._id });
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
-    res.json({
-        success: true,
-        token: token,
-        status: "You are successfully logged in!",
+const loginUser =
+    (passport.authenticate("local"),
+    (req, res, next) => {
+        const token = authenticate.getToken({ _id: req.user._id });
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json({
+            success: true,
+            token: token,
+            status: "You are successfully logged in!",
+        });
     });
-});
 
-router.get("/logout", (req, res, next) => {
+const logoutUser = (req, res, next) => {
     if (req.session) {
         req.session.destroy();
         res.clearCookie("session-id");
@@ -61,6 +65,11 @@ router.get("/logout", (req, res, next) => {
         err.status = 401;
         return next(err);
     }
-});
+};
 
-module.exports = router;
+module.exports = {
+    getUsers,
+    signUpUser,
+    loginUser,
+    logoutUser,
+};

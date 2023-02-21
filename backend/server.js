@@ -7,7 +7,7 @@ const session = require("express-session");
 const secret = require("./secret");
 
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
+const usersRouter = require("./routes/userRouter");
 const hoursWorkedRouter = require("./routes/hoursWorkedRouter");
 const taskRouter = require("./routes/taskRouter");
 const productionRouter = require("./routes/productionRouter");

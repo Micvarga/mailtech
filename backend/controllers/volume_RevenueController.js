@@ -1,43 +1,30 @@
 const productionVolume = require("../models/productionEntry");
 
-const getVolumes = (req, res, next) => {
+const getDailyVolumeReport = (req, res, next) => {
     const startDate = new Date(req.body.startDate);
     const endDate = new Date(req.body.endDate);
-    // array holding iterated dates from for loop.
-    const dateRange = [];
-    // For Loop will iterate each day between startDate and end Date and store in dateRange array.
-    for (
-        startDate;
-        startDate <= endDate;
-        startDate.setDate(startDate.getDate() + 1)
-    ) {
-        dateRange.push(new Date(startDate));
-    }
-    console.log(dateRange);
     productionVolume
         .aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(startDate),
+                        $lte: new Date(endDate),
+                    },
+                },
+            },
             {
                 $unwind: {
                     path: "$production",
                 },
             },
             {
-                // $bucket will group production docs  by date.
-                $bucket: {
-                    groupBy: "$date",
-                    // dateRange variable with array of dates used to set boundries for each bucket.
-                    boundaries: dateRange,
-                    default: "Other",
-                    output: {
-                        count: {
-                            $sum: 1,
-                        },
-                        // volumeReport is an array containing all the production info for each date.
-                        volumeReport: {
-                            $push: {
-                                task: "$production.task",
-                                volume: "$production.volume",
-                            },
+                $group: {
+                    _id: "$date",
+                    dailyVolumes: {
+                        $push: {
+                            task: "$production.task",
+                            volumes: "$production.volume",
                         },
                     },
                 },
@@ -51,4 +38,141 @@ const getVolumes = (req, res, next) => {
         .catch((err) => next(err));
 };
 
-module.exports = { getVolumes };
+const getDailyRevenueReport = (req, res, next) => {
+    const startDate = new Date(req.body.startDate);
+    const endDate = new Date(req.body.endDate);
+    productionVolume
+        .aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(startDate),
+                        $lte: new Date(endDate),
+                    },
+                },
+            },
+            {
+                $unwind: {
+                    path: "$production",
+                },
+            },
+            {
+                $lookup: {
+                    from: "tasks",
+                    localField: "production.task",
+                    foreignField: "task",
+                    as: "taskInfo",
+                },
+            },
+            {
+                $unwind: {
+                    path: "$taskInfo",
+                },
+            },
+            {
+                $group: {
+                    _id: "$date",
+                    entries: {
+                        $push: {
+                            task: "$production.task",
+                            volume: "$production.volume",
+                            price: "$taskInfo.price",
+                            revenue: {
+                                $multiply: [
+                                    "$production.volume",
+                                    "$taskInfo.price",
+                                ],
+                            },
+                        },
+                    },
+                    totalRevenue: {
+                        $sum: {
+                            $multiply: [
+                                "$production.volume",
+                                "$taskInfo.price",
+                            ],
+                        },
+                    },
+                },
+            },
+        ])
+        .then((revenue) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(revenue);
+        })
+        .catch((err) => next(err));
+};
+
+const getRevenueByTaskReport = (req, res, next) => {
+    const startDate = new Date(req.body.startDate);
+    const endDate = new Date(req.body.endDate);
+    productionVolume
+        .aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(startDate),
+                        $lte: new Date(endDate),
+                    },
+                },
+            },
+            {
+                $unwind: {
+                    path: "$production",
+                },
+            },
+            {
+                $lookup: {
+                    from: "tasks",
+                    localField: "production.task",
+                    foreignField: "task",
+                    as: "taskInfo",
+                },
+            },
+            {
+                $unwind: {
+                    path: "$taskInfo",
+                },
+            },
+            {
+                $group: {
+                    _id: "$production.task",
+                    entries: {
+                        $push: {
+                            date: "$date",
+                            task: "$production.task",
+                            volume: "$production.volume",
+                            price: "$taskInfo.price",
+                            revenue: {
+                                $multiply: [
+                                    "$production.volume",
+                                    "$taskInfo.price",
+                                ],
+                            },
+                        },
+                    },
+                    totalRevenue: {
+                        $sum: {
+                            $multiply: [
+                                "$production.volume",
+                                "$taskInfo.price",
+                            ],
+                        },
+                    },
+                },
+            },
+        ])
+        .then((revenue) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(revenue);
+        })
+        .catch((err) => next(err));
+};
+
+module.exports = {
+    getDailyVolumeReport,
+    getDailyRevenueReport,
+    getRevenueByTaskReport,
+};

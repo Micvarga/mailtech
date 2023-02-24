@@ -2,8 +2,14 @@ const express = require("express");
 
 const volumeRouter = express.Router();
 
-const { getVolumes } = require("../controllers/volume_RevenueController");
+const {
+    getDailyVolumeReport,
+    getDailyRevenueReport,
+    getRevenueByTaskReport,
+} = require("../controllers/volume_RevenueController");
 
-volumeRouter.get("/", getVolumes);
+volumeRouter.get("/dailyVolumesReport", getDailyVolumeReport);
+volumeRouter.get("/dailyRevenueReport", getDailyRevenueReport);
+volumeRouter.get("/revenueByTaskReport", getRevenueByTaskReport);
 
 module.exports = volumeRouter;

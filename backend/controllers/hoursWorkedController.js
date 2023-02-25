@@ -1,22 +1,160 @@
 const hoursWorkedEntry = require("../models/hoursWorked");
 
-const getHoursWorked = (req, res, next) => {
+const getEmployeeHoursWorkedReport = (req, res, next) => {
     // variables for differnt form fields sent from client
     let username = req.body.username;
     let startDate = req.body.startDate;
     let endDate = req.body.endDate;
-    console.log(username, startDate, endDate);
     hoursWorkedEntry
-        .find({
-            // query to find hours worked based on client input via form
-            username: { $eq: username },
-            date: {
-                $gte: new Date(new Date(startDate)),
-                $lte: new Date(new Date(endDate)),
+        .aggregate([
+            {
+                $match: {
+                    username: { $eq: username },
+                },
             },
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(startDate),
+                        $lte: new Date(endDate),
+                    },
+                },
+            },
+            {
+                $group: {
+                    _id: "$username",
+                    breakdown: {
+                        $push: {
+                            username: "$username",
+                            date: "$date",
+                            hoursWorked: "$hoursWorked",
+                        },
+                    },
+                    total_hours_worked: {
+                        $sum: "$hoursWorked",
+                    },
+                },
+            },
+        ])
+        // returned promise with query results if no result error is thrown
+        .then((hoursWorked) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(hoursWorked);
         })
-        // sort query in ascending order
-        .sort({ date: "asc" })
+        .catch((err) => next(err));
+};
+
+const getTeamHoursWorkedReport = (req, res, next) => {
+    // variables for differnt form fields sent from client
+    let startDate = req.body.startDate;
+    let endDate = req.body.endDate;
+    hoursWorkedEntry
+        .aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(startDate),
+                        $lte: new Date(endDate),
+                    },
+                },
+            },
+            {
+                $group: {
+                    _id: "$date",
+                    entries: {
+                        $push: {
+                            date: "$date",
+                            username: "$username",
+                            hoursWorked: "$hoursWorked",
+                        },
+                    },
+                    total_hours_worked: {
+                        $sum: "$hoursWorked",
+                    },
+                },
+            },
+            {
+                $sort: {
+                    _id: 1,
+                },
+            },
+        ])
+        // returned promise with query results if no result error is thrown
+        .then((hoursWorked) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(hoursWorked);
+        })
+        .catch((err) => next(err));
+};
+
+const getDailyLaborReport = (req, res, next) => {
+    // variables for differnt form fields sent from client
+    let startDate = req.body.startDate;
+    let endDate = req.body.endDate;
+    hoursWorkedEntry
+        .aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(startDate),
+                        $lte: new Date(endDate),
+                    },
+                },
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "username",
+                    foreignField: "username",
+                    as: "userPayRate",
+                },
+            },
+            {
+                $unset: [
+                    "userPayRate.firstName",
+                    "userPayRate.lastName",
+                    "userPayRate.admin",
+                    "userPayRate.salt",
+                    "userPayRate.hash",
+                    "userPayRate.__v",
+                    "userPayRate._id",
+                ],
+            },
+            {
+                $unwind: {
+                    path: "$userPayRate",
+                },
+            },
+            {
+                $group: {
+                    _id: "$date",
+                    labor: {
+                        $push: {
+                            username: "$username",
+                            hoursWorked: "$hoursWorked",
+                            pay: "$userPayRate.pay",
+                            laborCost: {
+                                $multiply: ["$hoursWorked", "$userPayRate.pay"],
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                $addFields: {
+                    totalLaborCost: {
+                        $sum: "$labor.laborCost",
+                    },
+                },
+            },
+            {
+                $sort: {
+                    _id: 1,
+                },
+            },
+        ])
         // returned promise with query results if no result error is thrown
         .then((hoursWorked) => {
             res.statusCode = 200;
@@ -88,7 +226,9 @@ const deleteHoursWorked = (req, res, next) => {
 };
 
 module.exports = {
-    getHoursWorked,
+    getEmployeeHoursWorkedReport,
+    getTeamHoursWorkedReport,
+    getDailyLaborReport,
     addHoursWorked,
     deleteHoursWorked,
 };

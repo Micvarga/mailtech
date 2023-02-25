@@ -42,18 +42,16 @@ const signUpUser = (req, res, next) => {
     );
 };
 
-const loginUser =
-    (passport.authenticate("local"),
-    (req, res, next) => {
-        const token = authenticate.getToken({ _id: req.user._id });
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.json({
-            success: true,
-            token: token,
-            status: "You are successfully logged in!",
-        });
+const loginUser = (req, res, next) => {
+    const token = authenticate.getToken({ _id: req.user._id });
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
+    res.json({
+        success: true,
+        token: token,
+        status: "You are successfully logged in!",
     });
+};
 
 const logoutUser = (req, res, next) => {
     if (req.session) {

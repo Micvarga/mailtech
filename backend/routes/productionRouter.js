@@ -4,16 +4,15 @@ const productionEntry = require("../models/productionEntry");
 const productionRouter = express.Router();
 
 const {
-    getProduction,
-    getProductionSummary,
-    getTeamProductionSummary,
+    getEmployeeProductionReport,
     createProductionEntry,
     deleteProductionEntry,
+    getTeamProductionReport,
 } = require("../controllers/productionController");
 
-productionRouter.get("/", getProduction);
-productionRouter.get("/employeeSummary", getProductionSummary);
-productionRouter.get("/teamSummary", getTeamProductionSummary);
+productionRouter.get("/employeeProductionReport", getEmployeeProductionReport);
+
+productionRouter.get("/teamProductionReport", getTeamProductionReport);
 
 productionRouter.post("/", createProductionEntry);
 

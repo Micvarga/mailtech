@@ -1,5 +1,5 @@
 const express = require("express");
-const productionEntry = require("../models/productionEntry");
+const authenticate = require("../authenticate");
 
 const productionRouter = express.Router();
 
@@ -10,12 +10,20 @@ const {
     getTeamProductionReport,
 } = require("../controllers/productionController");
 
-productionRouter.get("/employeeProductionReport", getEmployeeProductionReport);
+productionRouter.get(
+    "/employeeProductionReport",
+    authenticate.verifyUser,
+    getEmployeeProductionReport
+);
 
-productionRouter.get("/teamProductionReport", getTeamProductionReport);
+productionRouter.get(
+    "/teamProductionReport",
+    authenticate.verifyUser,
+    getTeamProductionReport
+);
 
-productionRouter.post("/", createProductionEntry);
+productionRouter.post("/", authenticate.verifyUser, createProductionEntry);
 
-productionRouter.delete("/", deleteProductionEntry);
+productionRouter.delete("/", authenticate.verifyUser, deleteProductionEntry);
 
 module.exports = productionRouter;

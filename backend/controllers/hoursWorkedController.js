@@ -1,11 +1,12 @@
 const hoursWorkedEntry = require("../models/hoursWorked");
 
 const getEmployeeHoursWorkedReport = (req, res, next) => {
-    // variables for differnt form fields sent from client
+    // variables to hold client request form info.
     let username = req.body.username;
     let startDate = req.body.startDate;
     let endDate = req.body.endDate;
     hoursWorkedEntry
+        // mongodb query to collect and sort employee hours worked data
         .aggregate([
             {
                 $match: {
@@ -46,10 +47,11 @@ const getEmployeeHoursWorkedReport = (req, res, next) => {
 };
 
 const getTeamHoursWorkedReport = (req, res, next) => {
-    // variables for differnt form fields sent from client
+    // variables to hold client request form info.
     let startDate = req.body.startDate;
     let endDate = req.body.endDate;
     hoursWorkedEntry
+        // mongodb query to collect and sort team hours worked data
         .aggregate([
             {
                 $match: {
@@ -90,10 +92,11 @@ const getTeamHoursWorkedReport = (req, res, next) => {
 };
 
 const getDailyLaborReport = (req, res, next) => {
-    // variables for differnt form fields sent from client
+    // variables to hold client request form info.
     let startDate = req.body.startDate;
     let endDate = req.body.endDate;
     hoursWorkedEntry
+        // mongodb query to collect and calculate labor data.
         .aggregate([
             {
                 $match: {

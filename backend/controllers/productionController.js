@@ -1,10 +1,12 @@
 const productionEntry = require("../models/productionEntry");
 
 const getEmployeeProductionReport = (req, res, next) => {
+    // variables to hold client request form info.
     let username = req.body.username;
     let startDate = req.body.startDate;
     let endDate = req.body.endDate;
     productionEntry
+        // mongodb query to collect and sort employee production data.
         .aggregate([
             {
                 $match: {
@@ -53,10 +55,11 @@ const getEmployeeProductionReport = (req, res, next) => {
 };
 
 const getTeamProductionReport = (req, res, next) => {
-    let username = req.body.username;
+    // variables to hold client request form info.
     let startDate = req.body.startDate;
     let endDate = req.body.endDate;
     productionEntry
+        // mongodb query to collect and sort team production data.
         .aggregate([
             {
                 $match: {

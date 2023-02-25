@@ -1,9 +1,11 @@
 const productionVolume = require("../models/productionEntry");
 
 const getDailyVolumeReport = (req, res, next) => {
+    // variables to hold client request form info.
     const startDate = new Date(req.body.startDate);
     const endDate = new Date(req.body.endDate);
     productionVolume
+        // mongodb query to colelct and sort daily volume data.
         .aggregate([
             {
                 $match: {
@@ -39,9 +41,11 @@ const getDailyVolumeReport = (req, res, next) => {
 };
 
 const getDailyRevenueReport = (req, res, next) => {
+    // variables to hold client request form info.
     const startDate = new Date(req.body.startDate);
     const endDate = new Date(req.body.endDate);
     productionVolume
+        // mongodb query to collect and calculate daily revenue data.
         .aggregate([
             {
                 $match: {
@@ -105,9 +109,11 @@ const getDailyRevenueReport = (req, res, next) => {
 };
 
 const getRevenueByTaskReport = (req, res, next) => {
+    // variables to hold client request info data.
     const startDate = new Date(req.body.startDate);
     const endDate = new Date(req.body.endDate);
     productionVolume
+        // mongodb query to collect and caluclate revenue data by task
         .aggregate([
             {
                 $match: {

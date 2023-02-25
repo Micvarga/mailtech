@@ -1,12 +1,12 @@
 const express = require("express");
-const Task = require("../models/task");
+const authenticate = require("../authenticate");
 
 const taskRouter = express.Router();
 
 const { getTasks, addTask } = require("../controllers/taskController");
 
-taskRouter.get("/", getTasks);
+taskRouter.get("/", authenticate.verifyUser, getTasks);
 
-taskRouter.post("/", addTask);
+taskRouter.post("/", authenticate.verifyUser, addTask);
 
 module.exports = taskRouter;

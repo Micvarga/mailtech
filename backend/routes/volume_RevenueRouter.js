@@ -1,4 +1,5 @@
 const express = require("express");
+const authenticate = require("../authenticate");
 
 const volumeRouter = express.Router();
 
@@ -8,8 +9,22 @@ const {
     getRevenueByTaskReport,
 } = require("../controllers/volume_RevenueController");
 
-volumeRouter.get("/dailyVolumesReport", getDailyVolumeReport);
-volumeRouter.get("/dailyRevenueReport", getDailyRevenueReport);
-volumeRouter.get("/revenueByTaskReport", getRevenueByTaskReport);
+volumeRouter.get(
+    "/dailyVolumesReport",
+    authenticate.verifyUser,
+    getDailyVolumeReport
+);
+
+volumeRouter.get(
+    "/dailyRevenueReport",
+    authenticate.verifyUser,
+    getDailyRevenueReport
+);
+
+volumeRouter.get(
+    "/revenueByTaskReport",
+    authenticate.verifyUser,
+    getRevenueByTaskReport
+);
 
 module.exports = volumeRouter;

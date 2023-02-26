@@ -12,9 +12,14 @@ const {
 } = require("../controllers/userController");
 
 /* GET users listing. */
-router.get("/", getUsers);
+router.get("/", authenticate.verifyUser, authenticate.verifyAdmin, getUsers);
 
-router.post("/signup", authenticate.verifyUser, signUpUser);
+router.post(
+    "/signup",
+    authenticate.verifyUser,
+    authenticate.verifyAdmin,
+    signUpUser
+);
 
 router.post("/login", passport.authenticate("local"), loginUser);
 

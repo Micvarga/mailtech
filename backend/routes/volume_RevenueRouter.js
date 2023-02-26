@@ -12,18 +12,21 @@ const {
 volumeRouter.get(
     "/dailyVolumesReport",
     authenticate.verifyUser,
+    authenticate.verifyAdmin,
     getDailyVolumeReport
 );
 
 volumeRouter.get(
     "/dailyRevenueReport",
     authenticate.verifyUser,
+    authenticate.verifyAdmin,
     getDailyRevenueReport
 );
 
 volumeRouter.get(
     "/revenueByTaskReport",
     authenticate.verifyUser,
+    authenticate.verifyAdmin,
     getRevenueByTaskReport
 );
 

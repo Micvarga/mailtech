@@ -19,11 +19,17 @@ productionRouter.get(
 productionRouter.get(
     "/teamProductionReport",
     authenticate.verifyUser,
+    authenticate.verifyAdmin,
     getTeamProductionReport
 );
 
 productionRouter.post("/", authenticate.verifyUser, createProductionEntry);
 
-productionRouter.delete("/", authenticate.verifyUser, deleteProductionEntry);
+productionRouter.delete(
+    "/",
+    authenticate.verifyUser,
+    authenticate.verifyAdmin,
+    deleteProductionEntry
+);
 
 module.exports = productionRouter;

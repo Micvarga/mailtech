@@ -20,16 +20,28 @@ hoursWorkedRouter.get(
 hoursWorkedRouter.get(
     "/teamHoursWorkedReport",
     authenticate.verifyUser,
+    authenticate.verifyAdmin,
     getTeamHoursWorkedReport
 );
 
 hoursWorkedRouter.get(
     "/dailyLaborReport",
     authenticate.verifyUser,
+    authenticate.verifyAdmin,
     getDailyLaborReport
 );
 
-hoursWorkedRouter.post("/", authenticate.verifyUser, addHoursWorked);
-hoursWorkedRouter.delete("/", authenticate.verifyUser, deleteHoursWorked);
+hoursWorkedRouter.post(
+    "/",
+    authenticate.verifyUser,
+    authenticate.verifyAdmin,
+    addHoursWorked
+);
+hoursWorkedRouter.delete(
+    "/",
+    authenticate.verifyUser,
+    authenticate.verifyAdmin,
+    deleteHoursWorked
+);
 
 module.exports = hoursWorkedRouter;

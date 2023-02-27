@@ -24,3 +24,5 @@ yarn-debug.log*
 yarn-error.log*
 
 /backend/secret.js
+/backend/bin/server.cert
+/backend/bin/server.key

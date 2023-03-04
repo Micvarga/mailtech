@@ -12,6 +12,7 @@ const hoursWorkedRouter = require("./routes/hoursWorkedRouter");
 const taskRouter = require("./routes/taskRouter");
 const productionRouter = require("./routes/productionRouter");
 const volume_RevenueRouter = require("./routes/volume_RevenueRouter");
+const cors = require("cors");
 
 const mongoose = require("mongoose");
 
@@ -67,6 +68,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(cors());
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/hoursWorked", hoursWorkedRouter);

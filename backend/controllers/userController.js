@@ -2,6 +2,16 @@ const user = require("../models/user");
 const passport = require("passport");
 const authenticate = require("../authenticate");
 
+const getUserInfo = (req, res, next) => {
+    user.findOne(req.body._id)
+        .then((userInfo) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(userInfo);
+        })
+        .catch((err) => next(err));
+};
+
 const getUsers = (req, res, next) => {
     user.find()
         .then((users) => {
@@ -50,6 +60,10 @@ const loginUser = (req, res, next) => {
         success: true,
         token: token,
         status: "You are successfully logged in!",
+        id: user._id,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
     });
 };
 
@@ -66,6 +80,7 @@ const logoutUser = (req, res, next) => {
 };
 
 module.exports = {
+    getUserInfo,
     getUsers,
     signUpUser,
     loginUser,

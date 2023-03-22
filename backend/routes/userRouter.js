@@ -5,6 +5,7 @@ const passport = require("passport");
 const router = express.Router();
 
 const {
+    getUserInfo,
     getUsers,
     signUpUser,
     loginUser,
@@ -13,6 +14,8 @@ const {
 
 /* GET users listing. */
 router.get("/", authenticate.verifyUser, authenticate.verifyAdmin, getUsers);
+
+router.get("/userInfo", getUserInfo);
 
 router.post(
     "/signup",

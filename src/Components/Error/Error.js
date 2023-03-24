@@ -1,9 +1,9 @@
 import { Col } from "reactstrap";
 
-const Error = ({ errorMsg }) => {
+const Error = ({ error }) => {
     return (
         <Col>
-            <h4>{errorMsg}</h4>
+            <h4>{error}</h4>
         </Col>
     );
 };

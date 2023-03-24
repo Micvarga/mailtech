@@ -3,7 +3,8 @@ const passport = require("passport");
 const authenticate = require("../authenticate");
 
 const getUserInfo = (req, res, next) => {
-    user.findOne(req.body._id)
+    console.log(req.body._id);
+    user.findById(req.user._id)
         .then((userInfo) => {
             res.statusCode = 200;
             res.setHeader("Content-Type", "application/json");
@@ -54,16 +55,17 @@ const signUpUser = (req, res, next) => {
 
 const loginUser = (req, res, next) => {
     const token = authenticate.getToken({ _id: req.user._id });
+    console.log(req.user._id);
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
     res.json({
         success: true,
         token: token,
         status: "You are successfully logged in!",
-        id: user._id,
-        username: user.username,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        id: req.user._id,
+        username: req.user.username,
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
     });
 };
 

@@ -10,3 +10,7 @@
 .navbar {
     background-color: #f77f00;
 }
+
+.login_status {
+    text-align: end;
+}

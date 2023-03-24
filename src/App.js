@@ -8,6 +8,8 @@ import ReportProductionPage from "./Pages/ReportProductionPage/ReportProductionP
 import VolumeReportsPage from "./Pages/VolumeReportsPage/VolumeReportsPage";
 import WorkedHoursReportsPage from "./Pages/WorkedHoursReportsPage/WorkedHoursReportsPage";
 import Register_RemoveUsersPage from "./Pages/Register_RemoveUsersPage/Register_RemoveUsersPage";
+import HomePage from "./Pages/HomePage/HomePage";
+import ProtectedRoute from "./routing/Protected Route";
 import "./App.css";
 
 function App() {
@@ -16,15 +18,27 @@ function App() {
             <Header />
             <Routes>
                 <Route path="/" element={<LoginPage />} />
-                <Route
-                    path="/efficiency"
-                    element={<MyEfficiencyReportsPage />}
-                />
-                <Route path="production" element={<ReportProductionPage />} />
-                <Route path="metrics" element={<TeamMetricsReportsPage />} />
-                <Route path="volume" element={<VolumeReportsPage />} />
-                <Route path="hours" element={<WorkedHoursReportsPage />} />
-                <Route path="users" element={<Register_RemoveUsersPage />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/home" element={<HomePage />} />
+                    <Route
+                        path="/efficiency"
+                        element={<MyEfficiencyReportsPage />}
+                    />
+                    <Route
+                        path="production"
+                        element={<ReportProductionPage />}
+                    />
+                    <Route
+                        path="metrics"
+                        element={<TeamMetricsReportsPage />}
+                    />
+                    <Route path="volume" element={<VolumeReportsPage />} />
+                    <Route path="hours" element={<WorkedHoursReportsPage />} />
+                    <Route
+                        path="users"
+                        element={<Register_RemoveUsersPage />}
+                    />
+                </Route>
             </Routes>
         </div>
     );
